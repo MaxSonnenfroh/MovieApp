@@ -3,6 +3,7 @@ import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
+import { updateSearchCount } from '@/services/appwrite';
 import useFetch from '@/services/useFetch';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, ActivityIndicator, TextInput } from 'react-native';
@@ -27,6 +28,9 @@ const Search = () => {
             async () => {
             if (searchQuery.trim()) {
                 await loadMovies();
+                if(movies?.length && movies[0]){
+                    updateSearchCount(searchQuery, movies[0]);
+                }
             } else {
                 resetMovies();
             }
